@@ -6,27 +6,33 @@ var db = new sqlite3.Database(file);
 
 function queries() {
   function selectBooksAuthors(cb) {
-    cb(undefined, []);
+    var sql = "SELECT * from authors JOIN books ON authors.id = books.author_id";
+    db.all(sql, cb);
   }
 
-  function insertBook(data, cb) {
-    cb(undefined, '');
-  }
+  function insertBook(data) {
+ var sql = "INSERT into books(title, author_id) VALUES(?,?)";
+    db.run(sql, data.title, data.authorId);
+    }
 
   function selectBooks(cb) {
-    cb(undefined, {});
+    var sql = "SELECT * from books";
+    db.all(sql, cb);
   }
 
   function selectBook(data, cb) {
-    cb(undefined, {});
+    var sql = "SELECT * from books WHERE id = ?";
+    db.get(sql, data.bookId, cb);
   }
 
-  function editBook(data, cb) {
-    cb(undefined, '');
+  function editBook(data) {
+     var sql = "UPDATE books SET title=?, author_id=? WHERE id=?";
+      db.run(sql, data.title, data.authorId, data.bookId);  
   }
 
-  function deleteBook(data, cb) {
-    cb(undefined, '');
+  function deleteBook(data) {
+     var sql = "DELETE from books WHERE id = ?";
+    db.run(sql, data.bookId);
   }
 
   function insertAuthor(data, cb) {
