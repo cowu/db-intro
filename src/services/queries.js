@@ -42,11 +42,14 @@ function queries() {
   }
 
   function selectAuthor(data, cb) {
-       cb(undefined, '');
+       var sql = "SELECT * from authors WHERE id =  ?";
+       db.get(sql, data.authorId, cb);
   }
 
   function editAuthor(data, cb) {
-    cb(undefined, '');
+      var sql = "UPDATE authors SET firstname=?, lastname=? WHERE id=?";
+      db.run(sql, data.firstname, data.lastname, data.authorId);  
+    
   }
 
   function deleteAuthor(data, cb) {
