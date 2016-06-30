@@ -1,6 +1,8 @@
 // connect to database
 var knex = require('../../db/db.js');
-var db;
+var file = './db/library.db';
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database(file);
 
 function queries() {
   function selectBooksAuthors(cb) {
@@ -28,16 +30,19 @@ function queries() {
   }
 
   function insertAuthor(data, cb) {
-    cb(undefined, '');
+    console.log(data);
+    var sql = "INSERT into authors(firstname, lastname) VALUES(?,?)";
+    db.run(sql, data.firstname, data.lastname);
   }
 
   function selectAuthors(cb) {
-    cb(undefined, []);
+     var sql = "SELECT * from authors";
+     db.all(sql, cb);
 
   }
 
   function selectAuthor(data, cb) {
-    cb(undefined, {});
+       cb(undefined, '');
   }
 
   function editAuthor(data, cb) {
